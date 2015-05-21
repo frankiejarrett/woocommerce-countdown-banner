@@ -61,11 +61,14 @@ class WC_Store_Countdown {
 
 		define( 'WC_STORE_COUNTDOWN_URL', plugins_url( '/', __FILE__ ) );
 
+		// Add custom settings to General tab
+		add_filter( 'woocommerce_get_settings_general', array( $this, 'settings' ) );
+
 		// Enqueue scripts and styles on the front-end
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		// Add countdown to store-wide notice
-		add_filter( 'woocommerce_demo_store', array( $this, 'countdown_notice' ) );
+		add_filter( 'woocommerce_demo_store', array( $this, 'notice' ) );
 	}
 
 	/**
@@ -105,6 +108,67 @@ class WC_Store_Countdown {
 	 *
 	 * More detailed info
 	 *
+	 * @filter
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @param array $settings
+	 *
+	 * @return array
+	 */
+	public function settings( $settings ) {
+		$settings[] = array(
+			'name' => __( 'Store Countdown Options', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown',
+			'type' => 'title',
+			'desc' => __( 'The following options are used to configure a site-wide store countdown notice.', 'woocommerce-store-countdown' ),
+		);
+
+		$settings[] = array(
+			'name' => __( 'Store Countdown Notice', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown',
+			'type' => 'checkbox',
+			'desc' => __( 'Enable site-wide store countdown notice', 'woocommerce-store-countdown' ),
+		);
+
+		$settings[] = array(
+			'name' => __( 'Display Text', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown_text',
+			'type' => 'text',
+			'css'  => 'min-width:300px;',
+		);
+
+		$settings[] = array(
+			'name' => __( 'Countdown End', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown_end',
+			'type' => 'text',
+		);
+
+		$settings[] = array(
+			'name' => __( 'Background Color', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown_bg_color',
+			'type' => 'text',
+		);
+
+		$settings[] = array(
+			'name' => __( 'Text Color', 'woocommerce-store-countdown' ),
+			'id'   => 'wc_store_countdown_text_color',
+			'type' => 'text',
+		);
+
+		$settings[] = array(
+			'id'   => 'wc_store_countdown',
+			'type' => 'sectionend',
+		);
+
+		return (array) $settings;
+	}
+
+	/**
+	 *
+	 *
+	 * More detailed info
+	 *
 	 * @action wp_enqueue_scripts
 	 *
 	 * @access public
@@ -135,7 +199,7 @@ class WC_Store_Countdown {
 	 *
 	 * @return string
 	 */
-	public function countdown_notice( $notice ) {
+	public function notice( $notice ) {
 		$countdown = sprintf(
 			'<p class="wc-store-countdown-notice">%s<span id="wc-store-countdown"></span></p>',
 			esc_html( '50% OFF Black Friday Sale Ends In' )
