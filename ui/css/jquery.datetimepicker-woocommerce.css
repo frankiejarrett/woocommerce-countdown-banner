@@ -1,0 +1,40 @@
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_label > .xdsoft_select > div > .xdsoft_option.xdsoft_current {
+	background: #a46497;
+	box-shadow: #a46497 0 1px 3px 0 inset;
+	color: #fff;
+	font-weight: 700;
+}
+
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_calendar td.xdsoft_today {
+	color: #a46497;
+}
+
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_calendar td.xdsoft_default,
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_calendar td.xdsoft_current,
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_timepicker .xdsoft_time_box >div >div.xdsoft_current {
+	background: #a46497;
+	box-shadow: #a46497 0 1px 3px 0 inset;
+	color: #fff;
+	font-weight: 700;
+}
+
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_calendar td.xdsoft_current.xdsoft_disabled:hover,
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_timepicker .xdsoft_time_box>div>div.xdsoft_current.xdsoft_disabled:hover {
+	background: #a46497 !important;
+	box-shadow: #a46497 0 1px 3px 0 inset !important;
+	color: #fff !important;
+}
+
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_label > .xdsoft_select.xdsoft_monthselect{ right: -7px }
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_label > .xdsoft_select.xdsoft_yearselect{ right: 2px }
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_label > .xdsoft_select > div > .xdsoft_option:hover {
+	color: #fff;
+	background: #a46497;
+}
+
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_calendar td:hover,
+.xdsoft_datetimepicker.xdsoft_woocommerce .xdsoft_timepicker .xdsoft_time_box >div >div:hover {
+	color: #fff !important;
+	background: #a46497 !important;
+	box-shadow: none !important;
+}

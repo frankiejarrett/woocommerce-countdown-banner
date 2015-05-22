@@ -4,7 +4,7 @@ jQuery( function( $ ) {
 	$( document ).ready( function() {
 
 		var labels     = ['weeks', 'days', 'hours', 'minutes', 'seconds'],
-		    dateEnd    = wc_store_countdown.end,
+		    dateEnd    = new Date( wc_store_countdown.end ),
 		    template   = _.template($('#wc-store-countdown-template').html()),
 		    currDate   = '00:00:00:00:00',
 		    nextDate   = '00:00:00:00:00',

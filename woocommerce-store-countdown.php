@@ -43,6 +43,16 @@ class WC_Store_Countdown {
 	public static $instance;
 
 	/**
+	 * Hold countdown end datetime
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @var string
+	 */
+	public static $countdown_end;
+
+	/**
 	 * Plugin version number
 	 *
 	 * @const string
@@ -61,14 +71,32 @@ class WC_Store_Countdown {
 
 		define( 'WC_STORE_COUNTDOWN_URL', plugins_url( '/', __FILE__ ) );
 
+		self::$countdown_end = str_replace( '@', '', (string) get_option( 'wc_store_countdown_end' ) );
+
+		/**
+		 * We are going to assume the user will input a datetime that is in their
+		 * site's local timezone. So we will then convert that datetime to GMT Unix
+		 * Epoch so we can make programatic date calculations behind the scenes.
+		 */
+		self::$countdown_end = strtotime( get_gmt_from_date( date( 'Y-m-d H:i:s', strtotime( self::$countdown_end ) ) ) );
+
+		// Automatically deactivate the countdown option if time has expired
+		add_action( 'init', array( $this, 'maybe_deactivate_countdown' ) );
+
 		// Add custom settings to General tab
 		add_filter( 'woocommerce_get_settings_general', array( $this, 'settings' ) );
+
+		// Enqueue timepicker addon
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 
 		// Enqueue scripts and styles on the front-end
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// Add countdown to store-wide notice
-		add_filter( 'woocommerce_demo_store', array( $this, 'notice' ) );
+		// Apply custom colors to store-wide notice
+		add_action( 'wp_head', array( $this, 'wp_head' ) );
+
+		// Add the countdown notice to the front-end
+		add_action( 'wp_footer', array( $this, 'notice' ) );
 	}
 
 	/**
@@ -104,11 +132,49 @@ class WC_Store_Countdown {
 	}
 
 	/**
+	 * Check if the Store Countdown is active
+	 *
+	 * 1. Option must be check in the WooCommerce General settings
+	 * 2. The countdown time must be in the future
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @static
+	 *
+	 * @return bool
+	 */
+	public static function is_active() {
+		if (
+			( 'yes' === get_option( 'wc_store_countdown_active' ) )
+			&&
+			self::$countdown_end > time()
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Turn the countdown option off after the countdown expires
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function maybe_deactivate_countdown() {
+		if ( time() > self::$countdown_end ) {
+			update_option( 'wc_store_countdown_active', 'no' );
+		}
+	}
+
+	/**
 	 *
 	 *
 	 * More detailed info
 	 *
-	 * @filter
+	 * @filter woocommerce_get_settings_general
 	 *
 	 * @access public
 	 * @since 1.0.0
@@ -117,57 +183,109 @@ class WC_Store_Countdown {
 	 * @return array
 	 */
 	public function settings( $settings ) {
-		$settings[] = array(
-			'name' => __( 'Store Countdown Options', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown',
-			'type' => 'title',
-			'desc' => __( 'The following options are used to configure a site-wide store countdown notice.', 'woocommerce-store-countdown' ),
+		$timezone = str_replace( array( '_', '/' ), array( ' ', ' / ' ), get_option( 'timezone_string' ) );
+
+		$countdown_settings = array(
+			array(
+				'name' => __( 'Store Countdown Options', 'woocommerce-store-countdown' ),
+				'id'   => 'wc_store_countdown',
+				'type' => 'title',
+				'desc' => __( 'The following options are used to configure a site-wide store countdown notice.', 'woocommerce-store-countdown' ),
+			),
+			array(
+				'name' => __( 'Store Countdown Notice', 'woocommerce-store-countdown' ),
+				'id'   => 'wc_store_countdown_active',
+				'type' => 'checkbox',
+				'desc' => __( 'Enable site-wide store countdown notice', 'woocommerce-store-countdown' ),
+			),
+			array(
+				'name' => __( 'Display Text', 'woocommerce-store-countdown' ),
+				'id'   => 'wc_store_countdown_text',
+				'type' => 'text',
+				'css'  => 'min-width:300px;',
+			),
+			array(
+				'name' => __( 'Countdown End', 'woocommerce-store-countdown' ),
+				'id'   => 'wc_store_countdown_end',
+				'type' => 'text',
+				'desc' => esc_html( $timezone ),
+				'css'  => 'min-width:200px;',
+			),
+			array(
+				'name'    => __( 'Background Color', 'woocommerce-store-countdown' ),
+				'id'      => 'wc_store_countdown_bg_color',
+				'type'    => 'color',
+				'default' => '#000000',
+				'css'     => 'max-width:80px;',
+			),
+			array(
+				'name'    => __( 'Text Color', 'woocommerce-store-countdown' ),
+				'id'      => 'wc_store_countdown_text_color',
+				'type'    => 'color',
+				'default' => '#ffffff',
+				'css'     => 'max-width:80px;',
+			),
+			array(
+				'id'   => 'wc_store_countdown',
+				'type' => 'sectionend',
+			),
 		);
 
-		$settings[] = array(
-			'name' => __( 'Store Countdown Notice', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown',
-			'type' => 'checkbox',
-			'desc' => __( 'Enable site-wide store countdown notice', 'woocommerce-store-countdown' ),
-		);
+		/**
+		 * Filter the WooCommerce Store Countdown custom settings
+		 *
+		 * @since 1.0.0
+		 *
+		 * @return array
+		 */
+		$countdown_settings = (array) apply_filters( 'woocommerce_store_countdown_settings', $countdown_settings );
 
-		$settings[] = array(
-			'name' => __( 'Display Text', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown_text',
-			'type' => 'text',
-			'css'  => 'min-width:300px;',
-		);
-
-		$settings[] = array(
-			'name' => __( 'Countdown End', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown_end',
-			'type' => 'text',
-		);
-
-		$settings[] = array(
-			'name' => __( 'Background Color', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown_bg_color',
-			'type' => 'text',
-		);
-
-		$settings[] = array(
-			'name' => __( 'Text Color', 'woocommerce-store-countdown' ),
-			'id'   => 'wc_store_countdown_text_color',
-			'type' => 'text',
-		);
-
-		$settings[] = array(
-			'id'   => 'wc_store_countdown',
-			'type' => 'sectionend',
-		);
-
-		return (array) $settings;
+		return array_merge( $settings, $countdown_settings );
 	}
 
 	/**
+	 * Enqueue scripts and styles in the admin
 	 *
+	 * @action admin_enqueue_scripts
 	 *
-	 * More detailed info
+	 * @access public
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function admin_enqueue_scripts() {
+		$screen = get_current_screen();
+
+		if ( ! isset( $screen->id ) || 'woocommerce_page_wc-settings' !== $screen->id ) {
+			return;
+		}
+
+		// Scripts
+		wp_enqueue_script( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/js/jquery.datetimepicker.min.js', array( 'jquery' ), '2.4.3' );
+		wp_enqueue_script( 'wc-store-countdown-admin', WC_STORE_COUNTDOWN_URL . 'ui/js/admin.min.js', array( 'jquery' ), self::VERSION );
+
+		// Styles
+		wp_enqueue_style( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker.min.css', array(), '2.4.3' );
+		wp_enqueue_style( 'jquery-datetimepicker-woocommerce', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker-woocommerce.css', array(), self::VERSION );
+
+		$time_format = (string) get_option( 'time_format' );
+		$date_format = (string) get_option( 'date_format' );
+		$format      = sprintf( '%s @ %s', $date_format, $time_format );
+
+		// Localized vars
+		wp_localize_script(
+			'wc-store-countdown-admin',
+			'wc_store_countdown_admin',
+			array(
+				'date_format' => esc_js( $date_format ),
+				'time_format' => esc_js( $time_format ),
+				'format'      => esc_js( $format ),
+			)
+		);
+	}
+
+	/**
+	 * Enqueue scripts and styles on the front-end
 	 *
 	 * @action wp_enqueue_scripts
 	 *
@@ -177,45 +295,85 @@ class WC_Store_Countdown {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		if ( is_admin() ) {
+		if ( ! self::is_active() ) {
 			return;
 		}
 
+		// Scripts
 		wp_enqueue_script( 'underscore' );
-		wp_enqueue_script( 'jquery-final-countdown', WC_STORE_COUNTDOWN_URL . 'ui/jquery.countdown.min.js', array( 'jquery' ), '2.0.4' );
-		wp_enqueue_script( 'wc-store-countdown', WC_STORE_COUNTDOWN_URL . 'ui/wc-store-countdown.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
-		wp_enqueue_style( 'wc-store-countdown', WC_STORE_COUNTDOWN_URL . 'ui/wc-store-countdown.css', array(), self::VERSION );
+		wp_enqueue_script( 'jquery-final-countdown', WC_STORE_COUNTDOWN_URL . 'ui/js/jquery.countdown.min.js', array( 'jquery' ), '2.0.4' );
+		wp_enqueue_script( 'wc-store-countdown', WC_STORE_COUNTDOWN_URL . 'ui/js/wc-store-countdown.min.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
+
+		// Styles
+		wp_enqueue_style( 'wc-store-countdown', WC_STORE_COUNTDOWN_URL . 'ui/css/wc-store-countdown.min.css', array(), self::VERSION );
+
+		// Localized vars
+		wp_localize_script(
+			'wc-store-countdown',
+			'wc_store_countdown',
+			array(
+				'end' => esc_js( gmdate( 'c', self::$countdown_end ) ),
+			)
+		);
 	}
 
 	/**
+	 * Print CSS styles on the front-end
 	 *
+	 * The reason for doing it this way is to be able to use the PHP
+	 * variables to change the color of the banner. Using JS causes
+	 * a short delay on page load, so printing this CSS in the page
+	 * head is the fastest and most efficient way to set colors.
 	 *
-	 * More detailed info
+	 * @action wp_head
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 *
+	 * @return void
+	 */
+	public function wp_head() {
+		if ( ! self::is_active() ) {
+			return;
+		}
+
+		$bg_color = (string) get_option( 'wc_store_countdown_bg_color' );
+		$bg_color = ! empty( $bg_color ) ? $bg_color : '#a46497';
+		$color    = (string) get_option( 'wc_store_countdown_text_color' );
+		$color    = ! empty( $color ) ? $color : '#ffffff';
+		?>
+		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:48em){body{margin-top:109px;}}.wc-store-countdown-notice{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
+		<?php
+	}
+
+	/**
+	 * Print the countdown notice on the front-end
 	 *
 	 * @action woocommerce_demo_store
 	 *
 	 * @access public
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @return void
 	 */
 	public function notice( $notice ) {
-		$countdown = sprintf(
-			'<p class="wc-store-countdown-notice">%s<span id="wc-store-countdown"></span></p>',
-			esc_html( '50% OFF Black Friday Sale Ends In' )
-		);
+		if ( ! self::is_active() ) {
+			return;
+		}
 
-		$template = '<script type="text/template" id="wc-store-countdown-template">
-			<div class="time <%= label %>">
-				<span class="count curr top"><%= curr %></span>
-				<span class="count next top"><%= next %></span>
-				<span class="count next bottom"><%= next %></span>
-				<span class="count curr bottom"><%= curr %></span>
-				<span class="label"><%= label.length < 6 ? label : label.substr(0, 3)  %></span>
-			</div>
-			</script>';
-
-		return $countdown . $template . $notice;
+		$display_text = (string) get_option( 'wc_store_countdown_text' );
+		?>
+		<p class="wc-store-countdown-notice"><?php echo esc_html( $display_text ) ?><span id="wc-store-countdown"></span></p>
+		<script type="text/template" id="wc-store-countdown-template">
+		<div class="time <%= label %>">
+			<span class="count curr top"><%= curr %></span>
+			<span class="count next top"><%= next %></span>
+			<span class="count next bottom"><%= next %></span>
+			<span class="count curr bottom"><%= curr %></span>
+			<span class="label"><%= label.length < 6 ? label : label.substr(0, 3)  %></span>
+		</div>
+		</script>
+		<?php
 	}
 
 }
