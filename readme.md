@@ -24,6 +24,9 @@ This is the answer.
 
 ## Screenshots ##
 
+### Important example here
+
+![Important example here](assets/screenshot-1.png)
 
 ## Changelog ##
 
