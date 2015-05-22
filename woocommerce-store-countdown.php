@@ -71,14 +71,14 @@ class WC_Store_Countdown {
 
 		define( 'WC_STORE_COUNTDOWN_URL', plugins_url( '/', __FILE__ ) );
 
+		// Sanitize the countdown end time for programmatic use
 		self::$countdown_end = str_replace( '@', '', (string) get_option( 'wc_store_countdown_end' ) );
+		self::$countdown_end = date( 'Y-m-d H:i:s', strtotime( self::$countdown_end ) );
 
-		/**
-		 * We are going to assume the user will input a datetime that is in their
-		 * site's local timezone. So we will then convert that datetime to GMT Unix
-		 * Epoch so we can make programatic date calculations behind the scenes.
-		 */
-		self::$countdown_end = strtotime( get_gmt_from_date( date( 'Y-m-d H:i:s', strtotime( self::$countdown_end ) ) ) );
+		// Use GMT when not using relative time
+		if ( ! self::use_relative_time() ) {
+			self::$countdown_end = get_gmt_from_date( self::$countdown_end );
+		}
 
 		// Automatically deactivate the countdown option if time has expired
 		add_action( 'init', array( $this, 'maybe_deactivate_countdown' ) );
@@ -132,6 +132,48 @@ class WC_Store_Countdown {
 	}
 
 	/**
+	 * Check if we should use relative time for the Store Countdown
+	 *
+	 * If relative time is enabled, we will use the same countdown end time
+	 * for all customer timezones.
+	 *
+	 * E.g. End the countdown at 3:00pm in New York and also at 3:00pm in Paris.
+	 *
+	 * Otherwise we will convert the time to GMT so that the countdown will end
+	 * at the same "moment in time" no matter the customer timezone.
+	 *
+	 * E.g. End the countdown at 3:00pm in New York and at 9:00pm in Paris.
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @static
+	 *
+	 * @return bool
+	 */
+	public static function use_relative_time() {
+		return ( 'yes' === (string) get_option( 'wc_store_countdown_relative_time' ) );
+	}
+
+	/**
+	 * Check if the Store Countdown has expired
+	 *
+	 * @access public
+	 * @since 1.0.0
+	 * @static
+	 *
+	 * @return bool
+	 */
+	public static function has_expired() {
+		if ( self::use_relative_time() ) {
+			$expired = ( strtotime( self::$countdown_end ) < (int) date_i18n( 'U' ) );
+		} else {
+			$expired = ( strtotime( self::$countdown_end ) < time() );
+		}
+
+		return (bool) $expired;
+	}
+
+	/**
 	 * Check if the Store Countdown is active
 	 *
 	 * 1. Option must be check in the WooCommerce General settings
@@ -147,7 +189,7 @@ class WC_Store_Countdown {
 		if (
 			( 'yes' === get_option( 'wc_store_countdown_active' ) )
 			&&
-			self::$countdown_end > time()
+			! self::has_expired()
 		) {
 			return true;
 		}
@@ -164,7 +206,7 @@ class WC_Store_Countdown {
 	 * @return void
 	 */
 	public function maybe_deactivate_countdown() {
-		if ( time() > self::$countdown_end ) {
+		if ( self::has_expired() ) {
 			update_option( 'wc_store_countdown_active', 'no' );
 		}
 	}
@@ -212,10 +254,17 @@ class WC_Store_Countdown {
 				'css'  => 'min-width:200px;',
 			),
 			array(
+				'name'     => __( 'Relative Time', 'woocommerce-store-countdown' ),
+				'id'       => 'wc_store_countdown_relative_time',
+				'type'     => 'checkbox',
+				'desc'     => __( 'Enabled', 'woocommerce-store-countdown' ),
+				'desc_tip' => __( "If enabled, the same Countdown End time will be used for all customer timezones — E.g. End the countdown at 3:00pm in New York and also at 3:00pm in Paris.", 'woocommerce-store-countdown' ),
+			),
+			array(
 				'name'    => __( 'Background Color', 'woocommerce-store-countdown' ),
 				'id'      => 'wc_store_countdown_bg_color',
 				'type'    => 'color',
-				'default' => '#000000',
+				'default' => '#a46497',
 				'css'     => 'max-width:80px;',
 			),
 			array(
@@ -262,7 +311,7 @@ class WC_Store_Countdown {
 
 		// Scripts
 		wp_enqueue_script( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/js/jquery.datetimepicker.min.js', array( 'jquery' ), '2.4.3' );
-		wp_enqueue_script( 'wc-store-countdown-admin', WC_STORE_COUNTDOWN_URL . 'ui/js/admin.min.js', array( 'jquery' ), self::VERSION );
+		wp_enqueue_script( 'wc-store-countdown-admin', WC_STORE_COUNTDOWN_URL . 'ui/js/admin.js', array( 'jquery' ), self::VERSION );
 
 		// Styles
 		wp_enqueue_style( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker.min.css', array(), '2.4.3' );
@@ -307,12 +356,14 @@ class WC_Store_Countdown {
 		// Styles
 		wp_enqueue_style( 'wc-store-countdown', WC_STORE_COUNTDOWN_URL . 'ui/css/wc-store-countdown.min.css', array(), self::VERSION );
 
+		$end = self::use_relative_time() ? self::$countdown_end : gmdate( 'c', strtotime( self::$countdown_end ) );
+
 		// Localized vars
 		wp_localize_script(
 			'wc-store-countdown',
 			'wc_store_countdown',
 			array(
-				'end' => esc_js( gmdate( 'c', self::$countdown_end ) ),
+				'end' => esc_js( $end ),
 			)
 		);
 	}

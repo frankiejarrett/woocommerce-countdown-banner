@@ -1,12 +1,12 @@
 /* globals datetimepicker, wc_store_countdown_admin */
 jQuery( document ).ready( function( $ ) {
 
-	var $checkbox = $( '#wc_store_countdown_active' ),
-	    $row      = $checkbox.closest( 'tr' ),
-	    $body     = $checkbox.closest( 'tbody' ),
-	    $rows     = $body.find( 'tr' );
+	var $active = $( '#wc_store_countdown_active' ),
+	    $row    = $active.closest( 'tr' ),
+	    $body   = $active.closest( 'tbody' ),
+	    $rows   = $body.find( 'tr' );
 
-	if ( $checkbox.is( ':checked' ) ) {
+	if ( $active.is( ':checked' ) ) {
 		$rows.show();
 	} else {
 		$rows.hide();
@@ -14,7 +14,7 @@ jQuery( document ).ready( function( $ ) {
 
 	$row.show();
 
-	$checkbox.change( function() {
+	$active.change( function() {
 		if ( this.checked ) {
 			$rows.show();
 		} else {
@@ -22,6 +22,23 @@ jQuery( document ).ready( function( $ ) {
 		}
 
 		$row.show();
+	});
+
+	var $relative = $( '#wc_store_countdown_relative_time' ),
+	    $end_desc = $( '#wc_store_countdown_end' ).next( 'span.description' );
+
+	if ( $relative.is( ':checked' ) ) {
+		$end_desc.hide();
+	} else {
+		$end_desc.show();
+	}
+
+	$relative.change( function() {
+		if ( this.checked ) {
+			$end_desc.hide();
+		} else {
+			$end_desc.show();
+		}
 	});
 
 	var setMinTime = function( ct ) {
