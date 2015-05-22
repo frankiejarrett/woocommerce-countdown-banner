@@ -32,7 +32,7 @@ Yes, you can customize the Display Text as well as the Background and Text color
 Developers can also target the `.wc-store-countdown-notice` element with their own custom CSS styles, if desired.
 
 ### What exactly does the Relative Time setting do? ###
-I'm glad you asked. This setting can be a little confusing to understand at first, but it's actually very handy!
+I'm glad you asked! This setting can be a little confusing to understand at first, but it's actually very handy.
 
 If relative time is enabled, the banner will try to detect customer's timezone so that the same countdown end time will apply for all customers, no matter their location.
 
