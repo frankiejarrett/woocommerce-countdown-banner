@@ -23,7 +23,9 @@ This is the answer.
 
 == Screenshots ==
 
-1. Important example here
+1. Display a countdown banner in your store for special promotions or launches!
+2. Simply choose a date for your countdown clock.
+3. And easily customize the color of your countdown banner and text.
 
 == Changelog ==
 

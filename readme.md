@@ -24,9 +24,17 @@ This is the answer.
 
 ## Screenshots ##
 
-### Important example here
+### Display a countdown banner in your store for special promotions or launches!
 
-![Important example here](assets/screenshot-1.png)
+![Display a countdown banner in your store for special promotions or launches!](assets/screenshot-1.png)
+
+### Simply choose a date for your countdown clock.
+
+![Simply choose a date for your countdown clock.](assets/screenshot-2.png)
+
+### And easily customize the color of your countdown banner and text.
+
+![And easily customize the color of your countdown banner and text.](assets/screenshot-3.png)
 
 ## Changelog ##
 
