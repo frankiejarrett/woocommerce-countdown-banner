@@ -38,7 +38,7 @@ If relative time is enabled, the banner will try to detect customer's timezone s
 
 For example, the countdown will end at **3:00pm in New York** and also at **3:00pm in Paris**. No matter where your customer is, the banner will disappear at 3:00pm.
 
-In contrast, if relative time is disabled, the countdown will end at the __same moment in time_ no matter where your customers are.
+In contrast, if relative time is disabled, the countdown will end at the _same moment in time_ no matter where your customers are.
 
 For example, the countdown will end at **3:00pm in New York**, but at **9:00pm in Paris**.
 
