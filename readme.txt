@@ -37,18 +37,18 @@ Developers can also target the `.wc-store-countdown-notice` element with their o
 
 I'm glad you asked! This setting can be a little confusing to understand at first, but it's actually very handy for stores that ship internationally.
 
-If relative time is enabled, the banner will try to detect customer's timezone so that the same countdown end time will apply for all customers, no matter their location.
+If relative time is enabled, the countdown notice will try to detect your customers' timezones so that the same end time will apply for all customers, no matter their location.
 
-For example, the countdown will end at **3:00pm in New York** and also at **3:00pm in Paris**. No matter where your customer is, the banner will disappear at 3:00pm.
+For example, the countdown will end at **3:00pm in New York** and also at **3:00pm in Paris**. No matter where your customers are in the world, the countdown will end _at 3:00pm their time_.
 
-In contrast, if relative time is disabled, the countdown will end at the _same moment in time_ no matter where your customers are.
+In contrast, if relative time is disabled, the countdown will end at the _same moment in time_ for everyone.
 
-For example, the countdown will end at **3:00pm in New York**, but at **9:00pm in Paris**.
+For example, the countdown will end at **3:00pm in New York**, but at **9:00pm in Paris**. Because of the timezone difference between New York and Paris, this is actually the same moment in time.
 
 == Screenshots ==
 
-1. Display an animated countdown banner in your store for special promotions or launches!
-2. Simply choose a date and time for your countdown clock.
+1. Display an animated countdown notice in your store for special promotions or launches!
+2. Simply choose an end date and time for your countdown clock.
 3. And easily customize the color of your countdown banner and text.
 
 == Changelog ==
