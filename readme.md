@@ -38,9 +38,9 @@ Developers can also target the `.wc-store-countdown-notice` element with their o
 
 ![Display an animated countdown banner in your store for special promotions or launches!](assets/screenshot-1.png)
 
-### Simply choose a date for your countdown clock.
+### Simply choose a date and time for your countdown clock.
 
-![Simply choose a date for your countdown clock.](assets/screenshot-2.png)
+![Simply choose a date and time for your countdown clock.](assets/screenshot-2.png)
 
 ### And easily customize the color of your countdown banner and text.
 
