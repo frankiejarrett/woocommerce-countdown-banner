@@ -405,7 +405,7 @@ class WC_Countdown_Banner {
 		$color    = (string) get_option( 'wc_countdown_banner_text_color' );
 		$color    = ! empty( $color ) ? $color : '#ffffff';
 		?>
-		<style type="text/css">body{margin-top:61px;}.wc-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
+		<style type="text/css">.wc-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
 		<?php
 		/**
 		 * Fires after the Countdown Banner CSS rendered in page head

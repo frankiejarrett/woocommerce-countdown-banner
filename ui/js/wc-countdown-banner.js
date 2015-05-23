@@ -4,18 +4,21 @@ jQuery( function( $ ) {
 	$( document ).ready( function() {
 
 		var $banner    = $( '.wc-countdown-banner' ),
-		    $countdown = $( '#wccb-countdown-container' );
+		    $countdown = $( '#wccb-countdown-container' ),
+		    $body      = $( 'body' );
 
-		function setBodyMargin() {
+		var original_margin = parseInt( $body.css( 'margin-top' ), 10 );
+
+		function setBodyTopMargin() {
 			var banner_height = $banner.outerHeight();
 
-			$( 'body' ).css({ 'margin-top': banner_height });
+			$body.css({ 'margin-top': original_margin + banner_height });
 		}
 
-		setBodyMargin();
+		setBodyTopMargin();
 
 		$( window ).resize( function() {
-			setBodyMargin();
+			setBodyTopMargin();
 		});
 
 		if ( $countdown.length ) {
