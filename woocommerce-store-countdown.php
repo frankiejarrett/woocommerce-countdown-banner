@@ -315,7 +315,7 @@ class WC_Store_Countdown {
 
 		// Styles
 		wp_enqueue_style( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker.min.css', array(), '2.4.3' );
-		wp_enqueue_style( 'jquery-datetimepicker-woocommerce', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker-woocommerce.css', array(), self::VERSION );
+		wp_enqueue_style( 'jquery-datetimepicker-woocommerce', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker-woocommerce.css', array( 'jquery-datetimepicker' ), self::VERSION );
 
 		$time_format = (string) get_option( 'time_format' );
 		$date_format = (string) get_option( 'date_format' );
