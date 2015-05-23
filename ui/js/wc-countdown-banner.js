@@ -84,7 +84,7 @@ jQuery( function( $ ) {
 		var hasPrev = false;
 
 		// Remove leading empty blocks
-		$( '#wc-countdown-banner' ).children( 'div' ).each( function() {
+		$countdown.children( 'div' ).each( function() {
 			if ( ! hasPrev && '00' === $( this ).find( '.count.next.bottom' ).text() ) {
 				hasPrev = false;
 				$( this ).hide();
@@ -94,7 +94,7 @@ jQuery( function( $ ) {
 		});
 
 		function setBodyMargin() {
-			var banner_height = $( '.wc-countdown-banner-banner' ).outerHeight();
+			var banner_height = $banner.outerHeight();
 
 			$( 'body' ).css({ 'margin-top': banner_height });
 		}

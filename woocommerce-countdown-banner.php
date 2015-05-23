@@ -73,11 +73,10 @@ class WC_Countdown_Banner {
 
 		// Sanitize the countdown end time for programmatic use
 		self::$countdown_end = str_replace( '@', '', (string) get_option( 'wc_countdown_banner_end' ) );
-		self::$countdown_end = date( 'Y-m-d H:i:s', strtotime( self::$countdown_end ) );
 
-		// Use GMT when not using relative time
-		if ( ! self::use_relative_time() ) {
-			self::$countdown_end = get_gmt_from_date( self::$countdown_end );
+		// Use use local time if using relative time, otherwise use GMT
+		if ( ! empty( self::$countdown_end ) ) {
+			self::$countdown_end = self::use_relative_time() ? date( 'Y-m-d H:i:s', strtotime( self::$countdown_end ) ) : get_gmt_from_date( self::$countdown_end );
 		}
 
 		// Automatically deactivate the countdown option if time has expired
@@ -164,6 +163,11 @@ class WC_Countdown_Banner {
 	 * @return bool
 	 */
 	public static function has_expired() {
+		// Should not be considered expired when empty
+		if ( empty( self::$countdown_end ) ) {
+			return false;
+		}
+
 		if ( self::use_relative_time() ) {
 			$expired = ( strtotime( self::$countdown_end ) < (int) date_i18n( 'U' ) );
 		} else {
@@ -190,6 +194,8 @@ class WC_Countdown_Banner {
 			( 'yes' === get_option( 'wc_countdown_banner_active' ) )
 			&&
 			! self::has_expired()
+			&&
+			( ! empty( self::$countdown_end ) || ! empty( (string) get_option( 'wc_countdown_banner_text' ) ) )
 		) {
 			return true;
 		}
@@ -393,7 +399,7 @@ class WC_Countdown_Banner {
 		$color    = (string) get_option( 'wc_countdown_banner_text_color' );
 		$color    = ! empty( $color ) ? $color : '#ffffff';
 		?>
-		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:782px){body{margin-top:109px;}}.wc-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
+		<style type="text/css">body{margin-top:61px;}.wc-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
 		<?php
 		/**
 		 * Fires after the Countdown Banner CSS rendered in page head
@@ -427,16 +433,18 @@ class WC_Countdown_Banner {
 		 */
 		do_action( 'woocommerce_before_countdown_banner' );
 		?>
-		<div class="wc-countdown-banner"><?php echo esc_html( $display_text ) ?><span id="wc-countdown-container"></span></div>
-		<script type="text/template" id="wc-countdown-banner-template">
-		<div class="time <%= label %>">
-			<span class="count curr top"><%= curr %></span>
-			<span class="count next top"><%= next %></span>
-			<span class="count next bottom"><%= next %></span>
-			<span class="count curr bottom"><%= curr %></span>
-			<span class="label"><%= label.length < 6 ? label : label.substr( 0, 3 )  %></span>
-		</div>
-		</script>
+		<div class="wc-countdown-banner"><?php echo esc_html( $display_text ) ?><?php if ( ! empty( self::$countdown_end ) ) : ?><span id="wc-countdown-container"></span><?php endif; ?><div class="clearfix"></div></div>
+		<?php if ( ! empty( self::$countdown_end ) ) : ?>
+			<script type="text/template" id="wc-countdown-banner-template">
+			<div class="time <%= label %>">
+				<span class="count curr top"><%= curr %></span>
+				<span class="count next top"><%= next %></span>
+				<span class="count next bottom"><%= next %></span>
+				<span class="count curr bottom"><%= curr %></span>
+				<span class="label"><%= label.length < 6 ? label : label.substr( 0, 3 )  %></span>
+			</div>
+			</script>
+		<?php endif; ?>
 		<?php
 		/**
 		 * Fires after the Countdown Banner HTML markup

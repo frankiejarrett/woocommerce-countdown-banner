@@ -2,6 +2,7 @@
 	position: fixed;
 	top: 0;
 	width: 100%;
+	min-height: 61px;
 	margin: 0;
 	padding: 10px;
 	text-align: center;
@@ -12,6 +13,12 @@
 	background: #a46497;
 	color: #fff;
 	z-index: 99999;
+}
+
+.wc-countdown-banner .clearfix:after {
+	display: table;
+	clear: both;
+	content: '';
 }
 
 body.admin-bar .wc-countdown-banner {
@@ -178,12 +185,13 @@ body.admin-bar .wc-countdown-banner {
 
 	.wc-countdown-banner {
 		position: absolute;
-		padding-bottom: 25px;
 	}
 
 	#wc-countdown-container {
 		width: 100%;
+		height: auto;
 		margin-left: 0;
+		padding-bottom: 15px;
 	}
 
 	#wc-countdown-container .time {
