@@ -21,7 +21,7 @@ This plugin tells your customers that they need to act fast by featuring a count
  * Create excitement and buzz for new product launches or arrivals
  * Display before your store officially opens to build anticipation for launch
  * Customize the look and feel of your banner with just a few clicks
- * Countdown banner is fully responsive and works on all devices
+ * Countdown banner is fully responsive and displays on all devices
  * Advanced controls for promoting to all of your customers in multiple timezones
 
 ## Frequently Asked Questions ##
