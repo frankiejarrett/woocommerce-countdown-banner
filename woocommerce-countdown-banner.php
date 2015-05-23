@@ -363,10 +363,10 @@ class WC_Countdown_Banner {
 		// Scripts
 		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 'jquery-final-countdown', WC_COUNTDOWN_BANNER_URL . 'ui/js/jquery.countdown.min.js', array( 'jquery' ), '2.0.4' );
-		wp_enqueue_script( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/js/wc-countdown-banner.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
+		wp_enqueue_script( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/js/wc-countdown-banner.min.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
 
 		// Styles
-		wp_enqueue_style( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/css/wc-countdown-banner.css', array(), self::VERSION );
+		wp_enqueue_style( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/css/wc-countdown-banner.min.css', array(), self::VERSION );
 
 		$end = self::use_relative_time() ? self::$countdown_end : gmdate( 'c', strtotime( self::$countdown_end ) );
 
