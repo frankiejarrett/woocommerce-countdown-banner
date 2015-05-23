@@ -15,11 +15,11 @@ Display an animated store-wide countdown banner for special promotions or launch
 
 This plugin tells your customers that they need to act fast by featuring a countdown banner above the header of your WooCommerce store.
 
- * Perfect for limited time store-wide sales or promotions
+ * Perfect for showcasing limited time offers, sales or promotions
  * Create excitement and buzz for new product launches or arrivals
  * Display before your store officially opens to build anticipation for launch
  * Customize the look and feel of your banner with just a few clicks
- * Advanced controls for promoting to all your customers in multiple timezones
+ * Advanced controls for promoting to all of your customers in multiple timezones
 
 == Frequently Asked Questions ==
 
