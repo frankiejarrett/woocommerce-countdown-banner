@@ -9,7 +9,7 @@ jQuery( function( $ ) {
 		    currDate   = '00:00:00:00:00',
 		    nextDate   = '00:00:00:00:00',
 		    parser     = /([0-9]{2})/gi,
-		    $notice    = $('.wc-store-countdown-notice'),
+		    $banner    = $('.wc-store-countdown-banner'),
 		    $countdown = $('#wc-store-countdown');
 
 		// Parse countdown string to an object
@@ -94,9 +94,9 @@ jQuery( function( $ ) {
 		});
 
 		function setBodyMargin() {
-			var notice_height = $( '.wc-store-countdown-notice' ).outerHeight();
+			var banner_height = $( '.wc-store-countdown-banner' ).outerHeight();
 
-			$( 'body' ).css({ 'margin-top': notice_height });
+			$( 'body' ).css({ 'margin-top': banner_height });
 		}
 
 		setBodyMargin();

@@ -1,4 +1,4 @@
-.wc-store-countdown-notice {
+.wc-store-countdown-banner {
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -14,7 +14,7 @@
 	z-index: 99999;
 }
 
-body.admin-bar .wc-store-countdown-notice {
+body.admin-bar .wc-store-countdown-banner {
 	top: 32px;
 }
 
@@ -172,11 +172,11 @@ body.admin-bar .wc-store-countdown-notice {
 
 @media screen and (max-width: 782px) {
 
-	body.admin-bar .wc-store-countdown-notice {
+	body.admin-bar .wc-store-countdown-banner {
 		top: 46px;
 	}
 
-	.wc-store-countdown-notice {
+	.wc-store-countdown-banner {
 		position: absolute;
 		padding-bottom: 25px;
 	}

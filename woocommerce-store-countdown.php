@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Store Countdown
  * Plugin URI: http://www.woothemes.com/products/woocommerce-store-countdown/
- * Description:
+ * Description: Display an animated store-wide countdown banner for special promotions or launches.
  * Version: 1.0.0
  * Author: WooThemes
  * Author URI: http://woothemes.com/
@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Main Plugin Class
  *
- * Display a password strength meter when customers register during checkout.
+ * Display an animated store-wide countdown banner for special promotions or launches.
  *
  * @version 1.0.0
  * @package WooCommerce
@@ -92,11 +92,11 @@ class WC_Store_Countdown {
 		// Enqueue scripts and styles on the front-end
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
-		// Apply custom colors to store-wide notice
+		// Apply custom colors to store-wide banner
 		add_action( 'wp_head', array( $this, 'wp_head' ) );
 
-		// Add the countdown notice to the front-end
-		add_action( 'wp_footer', array( $this, 'notice' ) );
+		// Add the countdown banner to the front-end
+		add_action( 'wp_footer', array( $this, 'banner' ) );
 	}
 
 	/**
@@ -232,13 +232,13 @@ class WC_Store_Countdown {
 				'name' => __( 'Store Countdown Options', 'woocommerce-store-countdown' ),
 				'id'   => 'wc_store_countdown',
 				'type' => 'title',
-				'desc' => __( 'The following options are used to configure a site-wide store countdown notice.', 'woocommerce-store-countdown' ),
+				'desc' => __( 'The following options are used to configure a site-wide store countdown banner.', 'woocommerce-store-countdown' ),
 			),
 			array(
-				'name' => __( 'Store Countdown Notice', 'woocommerce-store-countdown' ),
+				'name' => __( 'Store Countdown Banner', 'woocommerce-store-countdown' ),
 				'id'   => 'wc_store_countdown_active',
 				'type' => 'checkbox',
-				'desc' => __( 'Enable site-wide store countdown notice', 'woocommerce-store-countdown' ),
+				'desc' => __( 'Enable site-wide store countdown banner', 'woocommerce-store-countdown' ),
 			),
 			array(
 				'name' => __( 'Display Text', 'woocommerce-store-countdown' ),
@@ -393,12 +393,12 @@ class WC_Store_Countdown {
 		$color    = (string) get_option( 'wc_store_countdown_text_color' );
 		$color    = ! empty( $color ) ? $color : '#ffffff';
 		?>
-		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:782px){body{margin-top:109px;}}.wc-store-countdown-notice{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
+		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:782px){body{margin-top:109px;}}.wc-store-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
 		<?php
 	}
 
 	/**
-	 * Print the countdown notice on the front-end
+	 * Print the countdown banner on the front-end
 	 *
 	 * @action woocommerce_demo_store
 	 *
@@ -407,14 +407,14 @@ class WC_Store_Countdown {
 	 *
 	 * @return void
 	 */
-	public function notice( $notice ) {
+	public function banner() {
 		if ( ! self::is_active() ) {
 			return;
 		}
 
 		$display_text = (string) get_option( 'wc_store_countdown_text' );
 		?>
-		<div class="wc-store-countdown-notice"><?php echo esc_html( $display_text ) ?><span id="wc-store-countdown"></span></div>
+		<div class="wc-store-countdown-banner"><?php echo esc_html( $display_text ) ?><span id="wc-store-countdown"></span></div>
 		<script type="text/template" id="wc-store-countdown-template">
 		<div class="time <%= label %>">
 			<span class="count curr top"><%= curr %></span>
