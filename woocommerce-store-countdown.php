@@ -311,7 +311,7 @@ class WC_Store_Countdown {
 
 		// Scripts
 		wp_enqueue_script( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/js/jquery.datetimepicker.min.js', array( 'jquery' ), '2.4.3' );
-		wp_enqueue_script( 'wc-store-countdown-admin', WC_STORE_COUNTDOWN_URL . 'ui/js/admin.js', array( 'jquery' ), self::VERSION );
+		wp_enqueue_script( 'wc-store-countdown-admin', WC_STORE_COUNTDOWN_URL . 'ui/js/admin.min.js', array( 'jquery' ), self::VERSION );
 
 		// Styles
 		wp_enqueue_style( 'jquery-datetimepicker', WC_STORE_COUNTDOWN_URL . 'ui/css/jquery.datetimepicker.min.css', array(), '2.4.3' );

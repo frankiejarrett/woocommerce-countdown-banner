@@ -81,10 +81,15 @@ jQuery( function( $ ) {
 			}
 		});
 
-		// Remove empty blocks
+		var hasPrev = false;
+
+		// Remove leading empty blocks
 		$( '#wc-store-countdown' ).children( 'div' ).each( function() {
-			if ( '00' === $( this ).find( '.count.next.bottom' ).text() ) {
+			if ( ! hasPrev && '00' === $( this ).find( '.count.next.bottom' ).text() ) {
+				hasPrev = false;
 				$( this ).hide();
+			} else {
+				hasPrev = true;
 			}
 		});
 
