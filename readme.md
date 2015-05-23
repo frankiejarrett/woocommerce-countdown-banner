@@ -10,7 +10,7 @@ Display an animated store-wide countdown banner for special promotions or launch
 **Tested up to:** 4.2  
 **Stable tag:** 1.0.0  
 **License:** [GPLv3](https://www.gnu.org/licenses/gpl-3.0.html)  
-**WC requires at least:** 2.2.3  
+**WC requires at least:** 2.1.0  
 **WC tested up to:** 2.3.9  
 
 ## Description ##
@@ -34,7 +34,11 @@ There's no need for you to remember to login and turn it off.
 ### How can I customize the banner more than the options allow? ###
 Advanced users can target the `.wc-countdown-banner` element, and its child elements, with their own custom CSS. Feel free to reposition and style the banner however you like!
 
-There are also two hooks available for developers to add their own markup to banners: `woocommerce_before_countdown_banner` and `woocommerce_after_countdown_banner`
+There are also several action hooks available for developers to insert their own markup and custom CSS to banners:
+
+`woocommerce_before_countdown_banner`
+`woocommerce_after_countdown_banner`
+`woocommerce_after_countdown_banner_css`
 
 ### What exactly does the Relative Time setting do? ###
 We're glad you asked! This setting can be a little confusing to understand at first, but it's actually very handy for stores that ship internationally.
@@ -64,7 +68,7 @@ For example, the countdown will end at **3:00pm in New York**, but at **9:00pm i
 
 ## Changelog ##
 
-### 1.0.0 - May 22, 2015 ###
+### 1.0.0 - May 25, 2015 ###
 * Initial release
 
 Props [fjarrett](https://github.com/fjarrett)

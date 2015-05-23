@@ -395,6 +395,12 @@ class WC_Countdown_Banner {
 		?>
 		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:782px){body{margin-top:109px;}}.wc-countdown-banner{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
 		<?php
+		/**
+		 * Fires after the Countdown Banner CSS rendered in page head
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( 'woocommerce_after_countdown_banner_css' );
 	}
 
 	/**
@@ -414,6 +420,11 @@ class WC_Countdown_Banner {
 
 		$display_text = (string) get_option( 'wc_countdown_banner_text' );
 
+		/**
+		 * Fires before the Countdown Banner HTML markup
+		 *
+		 * @since 1.0.0
+		 */
 		do_action( 'woocommerce_before_countdown_banner' );
 		?>
 		<div class="wc-countdown-banner"><?php echo esc_html( $display_text ) ?><span id="wc-countdown-container"></span></div>
@@ -423,10 +434,16 @@ class WC_Countdown_Banner {
 			<span class="count next top"><%= next %></span>
 			<span class="count next bottom"><%= next %></span>
 			<span class="count curr bottom"><%= curr %></span>
-			<span class="label"><%= label.length < 6 ? label : label.substr(0, 3)  %></span>
+			<span class="label"><%= label.length < 6 ? label : label.substr( 0, 3 )  %></span>
 		</div>
 		</script>
 		<?php
+		/**
+		 * Fires after the Countdown Banner HTML markup
+		 *
+		 * @since 1.0.0
+		 */
+		do_action( 'woocommerce_after_countdown_banner' );
 	}
 
 }
