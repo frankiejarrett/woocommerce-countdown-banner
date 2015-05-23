@@ -36,9 +36,9 @@ Advanced users can target the `.wc-countdown-banner` element, and its child elem
 
 There are also several action hooks available for developers to insert their own markup and custom CSS to banners:
 
-`woocommerce_before_countdown_banner`
-`woocommerce_after_countdown_banner`
-`woocommerce_after_countdown_banner_css`
+ * `woocommerce_before_countdown_banner`
+ * `woocommerce_after_countdown_banner`
+ * `woocommerce_after_countdown_banner_css`
 
 = What exactly does the Relative Time setting do? =
 
