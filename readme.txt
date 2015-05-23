@@ -6,8 +6,8 @@ Tested up to: 4.2
 Stable tag: 1.0.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-WC requires at least: 2.1.0
-WC tested up to: 2.3.8
+WC requires at least: 2.2.3
+WC tested up to: 2.3.9
 
 Display an animated store-wide countdown banner for special promotions or launches.
 
