@@ -393,7 +393,7 @@ class WC_Store_Countdown {
 		$color    = (string) get_option( 'wc_store_countdown_text_color' );
 		$color    = ! empty( $color ) ? $color : '#ffffff';
 		?>
-		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:48em){body{margin-top:109px;}}.wc-store-countdown-notice{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
+		<style type="text/css">body{margin-top:61px;}@media screen and (max-width:782px){body{margin-top:109px;}}.wc-store-countdown-notice{background:<?php echo esc_html( $bg_color ) ?>;color:<?php echo esc_html( $color ) ?>;}</style>
 		<?php
 	}
 
@@ -414,7 +414,7 @@ class WC_Store_Countdown {
 
 		$display_text = (string) get_option( 'wc_store_countdown_text' );
 		?>
-		<p class="wc-store-countdown-notice"><?php echo esc_html( $display_text ) ?><span id="wc-store-countdown"></span></p>
+		<div class="wc-store-countdown-notice"><?php echo esc_html( $display_text ) ?><span id="wc-store-countdown"></span></div>
 		<script type="text/template" id="wc-store-countdown-template">
 		<div class="time <%= label %>">
 			<span class="count curr top"><%= curr %></span>

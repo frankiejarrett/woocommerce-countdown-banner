@@ -170,7 +170,7 @@ body.admin-bar .wc-store-countdown-notice {
 	        transform: rotateX(0deg);
 }
 
-@media screen and (max-width: 48em) {
+@media screen and (max-width: 782px) {
 
 	body.admin-bar .wc-store-countdown-notice {
 		top: 46px;
