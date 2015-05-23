@@ -11,6 +11,9 @@
 	background: #a46497;
 	color: #fff;
 	z-index: 99999;
+
+	 -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 body.admin-bar .wc-countdown-banner {
