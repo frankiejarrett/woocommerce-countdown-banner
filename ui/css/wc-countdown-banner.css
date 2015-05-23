@@ -1,4 +1,4 @@
-.wc-store-countdown-banner {
+.wc-countdown-banner {
 	position: fixed;
 	top: 0;
 	width: 100%;
@@ -14,17 +14,17 @@
 	z-index: 99999;
 }
 
-body.admin-bar .wc-store-countdown-banner {
+body.admin-bar .wc-countdown-banner {
 	top: 32px;
 }
 
-#wc-store-countdown {
+#wc-countdown-container {
 	display: inline-block;
 	height: 28px;
 	margin-left: 1em;
 }
 
-#wc-store-countdown .time {
+#wc-countdown-container .time {
 	border-radius: 5px;
 	display: inline-block;
 	text-align: center;
@@ -51,7 +51,7 @@ body.admin-bar .wc-store-countdown-banner {
 	        transform: translate3d(0,0,0);
 }
 
-#wc-store-countdown .count {
+#wc-countdown-container .count {
 	background: #202020;
 	color: #f8f8f8;
 	display: block;
@@ -78,7 +78,7 @@ body.admin-bar .wc-store-countdown-banner {
 	        transform-style: flat;
 }
 
-#wc-store-countdown .count.top {
+#wc-countdown-container .count.top {
 	border-top: 1px solid rgba(255,255,255,0.2);
 	border-radius: 5px 5px 0 0;
 	height: 50%;
@@ -90,7 +90,7 @@ body.admin-bar .wc-store-countdown-banner {
 	        transform-origin: 50% 100%;
 }
 
-#wc-store-countdown .count.bottom {
+#wc-countdown-container .count.bottom {
 	border-bottom: 1px solid #000;
 	border-radius: 0 0 5px 5px;
 	line-height: 0;
@@ -110,7 +110,7 @@ body.admin-bar .wc-store-countdown-banner {
 	        transform-origin: 50% 0;
 }
 
-#wc-store-countdown .label {
+#wc-countdown-container .label {
 	font-size: normal;
 	margin-top: 5px;
 	display: block;
@@ -121,7 +121,7 @@ body.admin-bar .wc-store-countdown-banner {
 }
 
 /* Animation start */
-#wc-store-countdown .count.curr.top {
+#wc-countdown-container .count.curr.top {
 	-webkit-transform: rotateX(0deg);
 	   -moz-transform: rotateX(0deg);
 	    -ms-transform: rotateX(0deg);
@@ -131,7 +131,7 @@ body.admin-bar .wc-store-countdown-banner {
 	z-index: 3;
 }
 
-#wc-store-countdown .count.next.bottom {
+#wc-countdown-container .count.next.bottom {
 	-webkit-transform: rotateX(90deg);
 	   -moz-transform: rotateX(90deg);
 	    -ms-transform: rotateX(90deg);
@@ -142,7 +142,7 @@ body.admin-bar .wc-store-countdown-banner {
 }
 
 /* Animation end */
-#wc-store-countdown .flip .count.curr.top {
+#wc-countdown-container .flip .count.curr.top {
 	-webkit-transition: all 250ms ease-in-out;
 	   -moz-transition: all 250ms ease-in-out;
 	    -ms-transition: all 250ms ease-in-out;
@@ -156,7 +156,7 @@ body.admin-bar .wc-store-countdown-banner {
 	        transform: rotateX(-90deg);
 }
 
-#wc-store-countdown .flip .count.next.bottom {
+#wc-countdown-container .flip .count.next.bottom {
 	-webkit-transition: all 250ms ease-in-out 250ms;
 	   -moz-transition: all 250ms ease-in-out 250ms;
 	    -ms-transition: all 250ms ease-in-out 250ms;
@@ -172,31 +172,31 @@ body.admin-bar .wc-store-countdown-banner {
 
 @media screen and (max-width: 782px) {
 
-	body.admin-bar .wc-store-countdown-banner {
+	body.admin-bar .wc-countdown-banner {
 		top: 46px;
 	}
 
-	.wc-store-countdown-banner {
+	.wc-countdown-banner {
 		position: absolute;
 		padding-bottom: 25px;
 	}
 
-	#wc-store-countdown {
+	#wc-countdown-container {
 		width: 100%;
 		margin-left: 0;
 	}
 
-	#wc-store-countdown .time {
+	#wc-countdown-container .time {
 		height: 36px;
 		width: 48px;
 	}
 
-	#wc-store-countdown .count {
+	#wc-countdown-container .count {
 		font-size: 1.2em;
 		line-height: 1.6em;
 	}
 
-	#wc-store-countdown .label {
+	#wc-countdown-container .label {
 		top: 23px;
 	}
 

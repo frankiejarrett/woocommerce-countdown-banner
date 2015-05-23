@@ -1,4 +1,4 @@
-=== WooCommerce Store Countdown ===
+=== WooCommerce Countdown Banner ===
 Contributors: fjarrett
 Tags: banner, ecommerce, marketing, sales, shop, shopping, store, woocommerce
 Requires at least: 4.0
@@ -28,17 +28,17 @@ This plugin tells your customers that they need to act fast by featuring a count
 
 When the counter reaches zero the promotional banner will disappear automatically.
 
-No need for you to remember to login and turn it off.
+There's no need for you to remember to login and turn it off.
 
-= Can I customize the countdown banner? =
+= How can I customize the banner more than the options allow? =
 
-Yes, you can customize the Display Text as well as the Background and Text colors from the WooCommerce General settings tab.
+Advanced users can target the `.wc-countdown-banner` element, and its child elements, with their own custom CSS. Feel free to reposition and style the banner however you like!
 
-Developers can also target the `.wc-store-countdown-banner` element with their own custom CSS styles, if desired.
+There are also two hooks available for developers to add their own markup to banners: `woocommerce_before_countdown_banner` and `woocommerce_after_countdown_banner`
 
 = What exactly does the Relative Time setting do? =
 
-I'm glad you asked! This setting can be a little confusing to understand at first, but it's actually very handy for stores that ship internationally.
+We're glad you asked! This setting can be a little confusing to understand at first, but it's actually very handy for stores that ship internationally.
 
 If relative time is enabled, the countdown banner will try to detect your customers' timezones so that the same end time will apply for all customers, no matter their location.
 

@@ -1,16 +1,16 @@
-/* globals wc_store_countdown */
+/* globals wc_countdown_banner */
 jQuery( function( $ ) {
 
 	$( document ).ready( function() {
 
 		var labels     = ['weeks', 'days', 'hours', 'minutes', 'seconds'],
-		    dateEnd    = new Date( wc_store_countdown.end ),
-		    template   = _.template($('#wc-store-countdown-template').html()),
+		    dateEnd    = new Date( wc_countdown_banner.end ),
+		    template   = _.template($('#wc-countdown-banner-template').html()),
 		    currDate   = '00:00:00:00:00',
 		    nextDate   = '00:00:00:00:00',
 		    parser     = /([0-9]{2})/gi,
-		    $banner    = $('.wc-store-countdown-banner'),
-		    $countdown = $('#wc-store-countdown');
+		    $banner    = $('.wc-countdown-banner'),
+		    $countdown = $('#wc-countdown-container');
 
 		// Parse countdown string to an object
 		function strfobj(str) {
@@ -84,7 +84,7 @@ jQuery( function( $ ) {
 		var hasPrev = false;
 
 		// Remove leading empty blocks
-		$( '#wc-store-countdown' ).children( 'div' ).each( function() {
+		$( '#wc-countdown-banner' ).children( 'div' ).each( function() {
 			if ( ! hasPrev && '00' === $( this ).find( '.count.next.bottom' ).text() ) {
 				hasPrev = false;
 				$( this ).hide();
@@ -94,7 +94,7 @@ jQuery( function( $ ) {
 		});
 
 		function setBodyMargin() {
-			var banner_height = $( '.wc-store-countdown-banner' ).outerHeight();
+			var banner_height = $( '.wc-countdown-banner-banner' ).outerHeight();
 
 			$( 'body' ).css({ 'margin-top': banner_height });
 		}

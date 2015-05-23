@@ -1,7 +1,7 @@
-/* globals datetimepicker, wc_store_countdown_admin */
+/* globals datetimepicker, wc_countdown_banner_admin */
 jQuery( document ).ready( function( $ ) {
 
-	var $active = $( '#wc_store_countdown_active' ),
+	var $active = $( '#wc_countdown_banner_active' ),
 	    $row    = $active.closest( 'tr' ),
 	    $body   = $active.closest( 'tbody' ),
 	    $rows   = $body.find( 'tr' );
@@ -24,8 +24,8 @@ jQuery( document ).ready( function( $ ) {
 		$row.show();
 	});
 
-	var $relative = $( '#wc_store_countdown_relative_time' ),
-	    $end_desc = $( '#wc_store_countdown_end' ).next( 'span.description' );
+	var $relative = $( '#wc_countdown_banner_relative_time' ),
+	    $end_desc = $( '#wc_countdown_banner_end' ).next( 'span.description' );
 
 	if ( $relative.is( ':checked' ) ) {
 		$end_desc.hide();
@@ -55,16 +55,16 @@ jQuery( document ).ready( function( $ ) {
 		}
 	}
 
-	$( '#wc_store_countdown_end' ).datetimepicker({
-		formatTime: wc_store_countdown_admin.time_format,
-		format: wc_store_countdown_admin.format,
+	$( '#wc_countdown_banner_end' ).datetimepicker({
+		formatTime: wc_countdown_banner_admin.time_format,
+		format: wc_countdown_banner_admin.format,
 		minDate: 0,
 		onSelectDate: setMinTime,
 		onShow: setMinTime,
 		theme: 'woocommerce'
 	});
 
-	var $bg_color = $( '#wc_store_countdown_bg_color' );
+	var $bg_color = $( '#wc_countdown_banner_bg_color' );
 
 	function defaultBgColor() {
 		if ( 7 !== $bg_color.val().length ) {
@@ -79,7 +79,7 @@ jQuery( document ).ready( function( $ ) {
 		defaultBgColor();
 	});
 
-	var $text_color = $( '#wc_store_countdown_text_color' );
+	var $text_color = $( '#wc_countdown_banner_text_color' );
 
 	function defaultTextColor() {
 		if ( 7 !== $text_color.val().length ) {
