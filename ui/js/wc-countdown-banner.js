@@ -4,7 +4,7 @@ jQuery( function( $ ) {
 	$( document ).ready( function() {
 
 		var $banner    = $( '.wc-countdown-banner' ),
-		    $countdown = $( '#wc-countdown-container' );
+		    $countdown = $( '#wccb-countdown-container' );
 
 		function setBodyMargin() {
 			var banner_height = $banner.outerHeight();
@@ -22,7 +22,7 @@ jQuery( function( $ ) {
 
 			var labels     = [ 'weeks', 'days', 'hours', 'minutes', 'seconds' ],
 			    dateEnd    = new Date( wc_countdown_banner.end ),
-			    template   = _.template( $( '#wc-countdown-banner-template' ).html() ),
+			    template   = _.template( $( '#wccb-template' ).html() ),
 			    currDate   = '00:00:00:00:00',
 			    nextDate   = '00:00:00:00:00',
 			    parser     = /([0-9]{2})/gi;
@@ -86,13 +86,13 @@ jQuery( function( $ ) {
 						    $node    = $countdown.find( selector );
 
 						// Update the node
-						$node.removeClass( 'flip' );
-						$node.find( '.curr' ).text( data.curr[ label ] );
-						$node.find( '.next' ).text( data.next[ label ] );
+						$node.removeClass( 'wccb-flip' );
+						$node.find( '.wccb-curr' ).text( data.curr[ label ] );
+						$node.find( '.wccb-next' ).text( data.next[ label ] );
 
 						// Wait for a repaint to then flip
 						_.delay( function( $node ) {
-							$node.addClass( 'flip' );
+							$node.addClass( 'wccb-flip' );
 						}, 50, $node );
 					});
 				}
@@ -102,7 +102,7 @@ jQuery( function( $ ) {
 
 			// Remove leading empty blocks
 			$countdown.children( 'div' ).each( function() {
-				if ( ! hasPrev && '00' === $( this ).find( '.count.next.bottom' ).text() ) {
+				if ( ! hasPrev && '00' === $( this ).find( '.wccb-count.wccb-next.wccb-bottom' ).text() ) {
 					hasPrev = false;
 					$( this ).hide();
 				} else {

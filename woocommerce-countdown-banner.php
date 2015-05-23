@@ -247,10 +247,12 @@ class WC_Countdown_Banner {
 				'desc' => __( 'Enable site-wide countdown banner', 'woocommerce-countdown-banner' ),
 			),
 			array(
-				'name' => __( 'Display Text', 'woocommerce-countdown-banner' ),
-				'id'   => 'wc_countdown_banner_text',
-				'type' => 'text',
-				'css'  => 'min-width:300px;',
+				'name'     => __( 'Display Text', 'woocommerce-countdown-banner' ),
+				'id'       => 'wc_countdown_banner_text',
+				'type'     => 'text',
+				'desc'     => __( 'This is the message displayed inside the banner. Please enter text only, HTML code is not allowed.', 'woocommerce-countdown-banner' ),
+				'desc_tip' => true,
+				'css'      => 'min-width:300px;',
 			),
 			array(
 				'name' => __( 'Countdown End', 'woocommerce-countdown-banner' ),
@@ -267,18 +269,22 @@ class WC_Countdown_Banner {
 				'desc_tip' => __( "If enabled, the same Countdown End time will be used for all customer timezones — E.g. End the countdown at 3:00pm in New York and also at 3:00pm in Paris.", 'woocommerce-countdown-banner' ),
 			),
 			array(
-				'name'    => __( 'Background Color', 'woocommerce-countdown-banner' ),
-				'id'      => 'wc_countdown_banner_bg_color',
-				'type'    => 'color',
-				'default' => '#a46497',
-				'css'     => 'max-width:80px;',
+				'name'     => __( 'Background Color', 'woocommerce-countdown-banner' ),
+				'id'       => 'wc_countdown_banner_bg_color',
+				'type'     => 'color',
+				'default'  => '#a46497',
+				'desc'     => __( 'This sets the background color of the banner. Please enter a hexadecimal color code.', 'woocommerce-countdown-banner' ),
+				'desc_tip' => true,
+				'css'      => 'max-width:80px;',
 			),
 			array(
-				'name'    => __( 'Text Color', 'woocommerce-countdown-banner' ),
-				'id'      => 'wc_countdown_banner_text_color',
-				'type'    => 'color',
-				'default' => '#ffffff',
-				'css'     => 'max-width:80px;',
+				'name'     => __( 'Text Color', 'woocommerce-countdown-banner' ),
+				'id'       => 'wc_countdown_banner_text_color',
+				'type'     => 'color',
+				'default'  => '#ffffff',
+				'desc'     => __( 'This sets the text color used inside the banner. Please enter a hexadecimal color code.', 'woocommerce-countdown-banner' ),
+				'desc_tip' => true,
+				'css'      => 'max-width:80px;',
 			),
 			array(
 				'id'   => 'wc_countdown_banner',
@@ -357,10 +363,10 @@ class WC_Countdown_Banner {
 		// Scripts
 		wp_enqueue_script( 'underscore' );
 		wp_enqueue_script( 'jquery-final-countdown', WC_COUNTDOWN_BANNER_URL . 'ui/js/jquery.countdown.min.js', array( 'jquery' ), '2.0.4' );
-		wp_enqueue_script( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/js/wc-countdown-banner.min.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
+		wp_enqueue_script( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/js/wc-countdown-banner.js', array( 'jquery', 'underscore', 'jquery-final-countdown' ), self::VERSION );
 
 		// Styles
-		wp_enqueue_style( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/css/wc-countdown-banner.min.css', array(), self::VERSION );
+		wp_enqueue_style( 'wc-countdown-banner', WC_COUNTDOWN_BANNER_URL . 'ui/css/wc-countdown-banner.css', array(), self::VERSION );
 
 		$end = self::use_relative_time() ? self::$countdown_end : gmdate( 'c', strtotime( self::$countdown_end ) );
 
@@ -433,15 +439,15 @@ class WC_Countdown_Banner {
 		 */
 		do_action( 'woocommerce_before_countdown_banner' );
 		?>
-		<div class="wc-countdown-banner"><?php echo esc_html( $display_text ) ?><?php if ( ! empty( self::$countdown_end ) ) : ?><span id="wc-countdown-container"></span><?php endif; ?><div class="clearfix"></div></div>
+		<div class="wc-countdown-banner"><span class="wccb-display-text"><?php echo esc_html( $display_text ) ?></span><?php if ( ! empty( self::$countdown_end ) ) : ?><span id="wccb-countdown-container"></span><?php endif; ?><div class="wccb-clearfix"></div></div>
 		<?php if ( ! empty( self::$countdown_end ) ) : ?>
-			<script type="text/template" id="wc-countdown-banner-template">
-			<div class="time <%= label %>">
-				<span class="count curr top"><%= curr %></span>
-				<span class="count next top"><%= next %></span>
-				<span class="count next bottom"><%= next %></span>
-				<span class="count curr bottom"><%= curr %></span>
-				<span class="label"><%= label.length < 6 ? label : label.substr( 0, 3 )  %></span>
+			<script type="text/template" id="wccb-template">
+			<div class="wccb-time <%= label %>">
+				<span class="wccb-count wccb-curr wccb-top"><%= curr %></span>
+				<span class="wccb-count wccb-next wccb-top"><%= next %></span>
+				<span class="wccb-count wccb-next wccb-bottom"><%= next %></span>
+				<span class="wccb-count wccb-curr wccb-bottom"><%= curr %></span>
+				<span class="wccb-label"><%= label.length < 6 ? label : label.substr( 0, 3 )  %></span>
 			</div>
 			</script>
 		<?php endif; ?>
